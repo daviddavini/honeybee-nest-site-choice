@@ -48,8 +48,8 @@ def approx_system(init_conds, params, t_f):
 figsize = (8, 6)
 fig, ax = plt.subplots(figsize=figsize)
 plt.subplots_adjust(left=0.1, bottom=0.45)
-def_t_f = 0
-def_Y1 = 0.5
+def_t_f = 10.0
+def_Y1 = 0.1
 def_Y2 = 0.1
 def_init_conds = [def_Y1, def_Y2]
 def_b1 = 1.0
@@ -129,8 +129,9 @@ button = Button(resetax, 'Reset', color=axcolor, hovercolor='0.975')
 
 
 def reset(event):
-    sfreq.reset()
-    samp.reset()
+    for slider in sliders:
+        slider.reset()
+
 button.on_clicked(reset)
 
 # rax = plt.axes([0.025, 0.5, 0.15, 0.15], facecolor=axcolor)
