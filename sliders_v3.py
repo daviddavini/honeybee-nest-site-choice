@@ -61,11 +61,11 @@ def_l = 1.0
 # def_p = 0.5
 def_params = [def_b1, def_b2, def_g, def_d, def_a, def_l]
 [t, X, Y1, Y2, Z1, Z2] = approx_system(def_init_conds, def_params, def_t_f)
-l_X, = plt.plot(t, X, lw=2, label="$X$")
-l_Y1, = plt.plot(t, Y1, lw=2, label="$Y1$")
-l_Y2, = plt.plot(t, Y2, lw=2, label="$Y2$")
-l_Z1, = plt.plot(t, Z1, lw=2, label="$Z1$")
-l_Z2, = plt.plot(t, Z2, lw=2, label="$Z2$")
+l_X, = plt.plot(t, X, lw=2, label="$X$", color="red")
+l_Y1, = plt.plot(t, Y1, lw=2, label="$Y1$", color="cornflowerblue")
+l_Y2, = plt.plot(t, Y2, lw=2, label="$Y2$", color="limegreen")
+l_Z1, = plt.plot(t, Z1, lw=2, label="$Z1$", color="navy")
+l_Z2, = plt.plot(t, Z2, lw=2, label="$Z2$", color="forestgreen")
 plots = [l_X, l_Y1, l_Y2, l_Z1, l_Z2]
 plt.legend()
 plt.axis([t[0], t[-1], 0, 1])
@@ -78,7 +78,7 @@ axcolor = 'lightgoldenrodyellow'
 
 valmin = 0.0
 time_max = 1000
-param_max = 5.0
+param_max = 10.0
 init_cond_max = 1.0
 random_max = 1
 s_t_f = Slider(ax_t_f, '$t_f$ (Final Time)', 0.1, time_max, valinit=def_t_f)
