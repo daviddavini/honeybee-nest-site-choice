@@ -6,8 +6,7 @@ STEPS_PER_TIME = 100
 # STEPS_PER_TIME = 10
 
 def approx_system_i(init_conds, params, t_i):
-    [Y1_0] = init_conds
-    X_0 = 1 - Y1_0
+    [X_0, Y1_0] = init_conds
     Z1_0 = 0
     [b1, g, d, l, p] = params
 
@@ -69,8 +68,9 @@ def approx_system_f(init_conds, params, t_i, t_f):
 figsize = (8, 6)
 fig, ax = plt.subplots(1, 2, figsize=figsize, sharey=True)
 plt.subplots_adjust(left=0.1, bottom=.5)
-def_t_i = 500
-def_t_f = 1000
+def_t_i = 50
+def_t_f = 100
+def_X = 20
 def_Y1 = 10
 def_Y2 = 0
 def_b1 = 1.0
@@ -81,7 +81,7 @@ def_a = 1.0
 def_l = 1.0
 def_p = 1.0
 
-def_init_conds_i = [def_Y1]
+def_init_conds_i = [def_X, def_Y1]
 def_params_i = [def_b1, def_g, def_d, def_l, def_p]
 [t_arr, X_arr, Y1_arr, Z1_arr] = approx_system_i(def_init_conds_i, def_params_i, def_t_i)
 l0_X, = ax[0].plot(t_arr, X_arr, lw=2, label="$X$", color="blue")
@@ -110,8 +110,8 @@ plots = [l0_X, l0_Y1, l0_Z1, l1_X, l1_Y1, l1_Y2, l1_Z1, l1_Z2]
 # plt.axis([t[0], t[-1], 0, 1])
 
 axcolor = 'lightgoldenrodyellow'
-[ax_p, ax_a, ax_l, ax_d, ax_g, ax_b2, ax_b1, ax_Y2, ax_Y1, ax_t_f, ax_t_i] = [
-    plt.axes([0.3, 0.1 + i*0.03, 0.6, 0.03], facecolor=axcolor) for i in range(11) 
+[ax_p, ax_a, ax_l, ax_d, ax_g, ax_b2, ax_b1, ax_Y2, ax_Y1, ax_X, ax_t_f, ax_t_i] = [
+    plt.axes([0.3, 0.1 + i*0.03, 0.6, 0.03], facecolor=axcolor) for i in range(12) 
 ]
 
 valmin = 0.0
@@ -121,6 +121,7 @@ init_cond_max = 100
 random_max = 1.0
 s_t_i = Slider(ax_t_i, '$t_f$ (Intermediate Time)', 0.1, time_max, valinit=def_t_i)
 s_t_f = Slider(ax_t_f, '$t_f$ (Final Time)', 0.1, time_max, valinit=def_t_f)
+s_X = Slider(ax_X, '$X$ (Initial Neutral)', valmin, init_cond_max, valinit=def_X)
 s_Y1 = Slider(ax_Y1, '$Y_1$ (Nest 1 Initial Supporters)', valmin, init_cond_max, valinit=def_Y1)
 s_Y2 = Slider(ax_Y2, '$Y_2$ (Nest 2 Initial Supporters)', valmin, init_cond_max, valinit=def_Y2)
 s_b1 = Slider(ax_b1, '$\\beta_1$ (Nest 1 Persuasion Rate)', valmin, param_max, valinit=def_b1)
@@ -130,11 +131,12 @@ s_d = Slider(ax_d, '$\\delta$ (Re-dance Rate)', valmin, param_max, valinit=def_d
 s_a = Slider(ax_a, '$\\alpha$ (Direct-switching Rate)', valmin, param_max, valinit=def_a)
 s_l = Slider(ax_l, '$\\lambda$ (Indirect-switching Rate)', valmin, param_max, valinit=def_l)
 s_p = Slider(ax_p, '$\\rho$ (Probability of Indirect-switching)', valmin, random_max, valinit=def_p)
-sliders = [s_t_i, s_t_f, s_Y1, s_Y2, s_b1, s_b2, s_g, s_d, s_a, s_l, s_p]
+sliders = [s_t_i, s_t_f, s_X, s_Y1, s_Y2, s_b1, s_b2, s_g, s_d, s_a, s_l, s_p]
 
 def update(val):
     t_i = s_t_i.val
     t_f = s_t_f.val
+    X = s_X.val
     Y1 = s_Y1.val
     Y2 = s_Y2.val
     b1 = s_b1.val
@@ -145,7 +147,7 @@ def update(val):
     l = s_l.val
     p = s_p.val
 
-    init_conds_i = [Y1]
+    init_conds_i = [X, Y1]
     params_i = [b1, g, d, l, p]
     [t_arr, X_arr, Y1_arr, Z1_arr] = approx_system_i(init_conds_i, params_i, t_i)
     l0_X.set_ydata(X_arr)
@@ -155,8 +157,9 @@ def update(val):
     l0_Z1.set_ydata(Z1_arr)
     l0_Z1.set_xdata(t_arr)
     ax[0].set_xlim(0, t_i)
-    max_elt = 1.1 * max([np.max(X_arr), np.max(Y1_arr), np.max(Z1_arr)])
-    ax[0].set_ylim(0, max_elt)
+
+    max_elt = max([np.max(X_arr), np.max(Y1_arr), np.max(Z1_arr)])
+    # ax[0].set_ylim(0, max_elt)
 
     X = X_arr[-1]
     Y1 = Y1_arr[-1]
@@ -175,8 +178,9 @@ def update(val):
     l1_Z2.set_ydata(Z2_arr)
     l1_Z2.set_xdata(t_arr)
     ax[1].set_xlim(t_i, t_f)
-    max_elt = 1.1 * max([np.max(X_arr), np.max(Y1_arr), np.max(Y2_arr), np.max(Z1_arr), np.max(Z2_arr)])
-    ax[1].set_ylim(0, max_elt)
+    max_elt = 1.1 * max([np.max(X_arr), np.max(Y1_arr), np.max(Y2_arr), np.max(Z1_arr), np.max(Z2_arr), max_elt])
+    # ax[1].set_ylim(0, max_elt)
+    ax[0].set_ylim(0, max_elt)
 
     # for plot in plots:
     #     plot.set_xdata(t)
