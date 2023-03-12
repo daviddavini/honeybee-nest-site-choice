@@ -2,8 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider, Button, RadioButtons
 
-# STEPS_PER_TIME = 100
-STEPS_PER_TIME = 10
+STEPS_PER_TIME = 100
+# STEPS_PER_TIME = 10
 
 def approx_system(init_conds, params, t_f):
     [Y1_0, Y2_0] = init_conds
@@ -77,7 +77,7 @@ axcolor = 'lightgoldenrodyellow'
 ]
 
 valmin = 0.0
-time_max = 100
+time_max = 1000
 param_max = 5.0
 init_cond_max = 1.0
 random_max = 1.0
@@ -89,8 +89,8 @@ s_b2 = Slider(ax_b2, '$\\beta_2$ (Nest 2 Persuasion Rate)', valmin, param_max, v
 s_g = Slider(ax_g, '$\\gamma$ (Dance Cease Rate)', valmin, param_max, valinit=def_g)
 s_d = Slider(ax_d, '$\\delta$ (Re-dance Rate)', valmin, param_max, valinit=def_d)
 s_a = Slider(ax_a, '$\\alpha$ (Direct-switching Rate)', valmin, param_max, valinit=def_a)
-s_l = Slider(ax_l, '$\\lambda$ (Return-to-naive Rate)', valmin, param_max, valinit=def_l)
-s_p = Slider(ax_p, '$\\rho$ (Probability of Direct-switching)', valmin, random_max, valinit=def_p)
+s_l = Slider(ax_l, '$\\lambda$ (Indirect-switching Rate)', valmin, param_max, valinit=def_l)
+s_p = Slider(ax_p, '$\\rho$ (Probability of Indirect-switching)', valmin, random_max, valinit=def_p)
 sliders = [s_t_f, s_Y1, s_Y2, s_b1, s_b2, s_g, s_d, s_a, s_l, s_p]
 
 def update(val):
