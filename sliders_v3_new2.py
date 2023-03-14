@@ -101,6 +101,7 @@ l1_Z2, = ax[1].plot(t_arr, Z2_arr, lw=2, label="$Z2$", color="cornflowerblue")
 ax[1].set_xlim(def_t_i, def_t_f)
 max_elt = 1.1 * max([np.max(X_arr), np.max(Y1_arr), np.max(Y2_arr), np.max(Z1_arr), np.max(Z2_arr), max_elt])
 ax[0].set_ylim(-max_elt*0.1, max_elt)
+ax[1].set_ylim(-max_elt*0.1, max_elt)
 ax[1].legend()
 
 plots = [l0_X, l0_Y1, l0_Z1, l1_X, l1_Y1, l1_Y2, l1_Z1, l1_Z2]
@@ -173,6 +174,7 @@ def update(val):
     ax[1].set_xlim(t_i, t_f)
     max_elt = 1.1 * max([np.max(X_arr), np.max(Y1_arr), np.max(Y2_arr), np.max(Z1_arr), np.max(Z2_arr), max_elt])
     ax[0].set_ylim(-max_elt*0.1, max_elt)
+    # ax[1].set_ylim(-max_elt*0.1, max_elt)
 
     # for plot in plots:
     #     plot.set_xdata(t)
